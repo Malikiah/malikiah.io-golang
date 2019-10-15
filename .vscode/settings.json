@@ -1,0 +1,5 @@
+{
+    "go.formatFlags": [
+        "\"[go]\": {\"editor.formatOnSave\": false}"
+    ]
+}

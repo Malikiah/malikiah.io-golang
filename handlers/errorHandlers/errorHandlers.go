@@ -6,28 +6,28 @@ import (
 	"net/http"
 )
 
-func HealthCheckHandler(w http.ResponseWriter, r *http.Request) {
+func HealthCheckHandler(response http.ResponseWriter, request *http.Request) {
 	// A very simple health check.
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
+	response.Header().Set("Content-Type", "application/json")
+	response.WriteHeader(http.StatusOK)
 
 	// In the future we could report back on the status of our DB, or our cache
 	// (e.g. Redis) by performing a simple PING, and include them in the response.
-	io.WriteString(w, `{"alive": true}`)
+	io.WriteString(response, `{"alive": true}`)
 }
 
-func NotFoundHandler(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusNotFound)
-	log.Println("IP Address: " + r.RemoteAddr)
-	log.Println("Requested URI: " + r.RequestURI)
+func NotFoundHandler(response http.ResponseWriter, request *http.Request) {
+	response.WriteHeader(http.StatusNotFound)
+	log.Println("IP Address: " + request.RemoteAddr)
+	log.Println("Requested URI: " + request.RequestURI)
 	log.Println("Status Code: ", http.StatusNotFound)
-	log.Println(r.Header)
+	log.Println(request.Header)
 }
 
-func MethodNotAllowedHandler(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusMethodNotAllowed)
-	log.Println("IP Address: " + r.RemoteAddr)
-	log.Println("Requested URI: " + r.RequestURI)
+func MethodNotAllowedHandler(response http.ResponseWriter, request *http.Request) {
+	response.WriteHeader(http.StatusMethodNotAllowed)
+	log.Println("IP Address: " + request.RemoteAddr)
+	log.Println("Requested URI: " + request.RequestURI)
 	log.Println("Status Code: ", http.StatusMethodNotAllowed)
-	log.Println(r.Header)
+	log.Println(request.Header)
 }

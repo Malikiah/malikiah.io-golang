@@ -31,16 +31,16 @@ func main() {
 
 	port := "3000"
 	// Init Router
-	r := mux.NewRouter()
+	router := mux.NewRouter()
 
 	// route handlers / endpoints
-	r.HandleFunc("/health", errorhandlers.HealthCheckHandler).Methods("GET").Name("HealthCheck")
-	r.HandleFunc("/login", userhandlers.LoginHandler).Methods("POST").Name("Login")
-	r.HandleFunc("/register", userhandlers.RegistrationHandler).Methods("POST").Name("Register")
+	router.HandleFunc("/health", errorhandlers.HealthCheckHandler).Methods("GET").Name("HealthCheck")
+	router.HandleFunc("/login", userhandlers.LoginHandler).Methods("POST").Name("Login")
+	router.HandleFunc("/register", userhandlers.RegistrationHandler).Methods("POST").Name("Register")
 
-	r.NotFoundHandler = http.HandlerFunc(errorhandlers.NotFoundHandler)
+	router.NotFoundHandler = http.HandlerFunc(errorhandlers.NotFoundHandler)
 
-	r.Use(middleware.LoggingMiddleware)
+	router.Use(middleware.LoggingMiddleware)
 
 	log.Println("Gopher army ready and is listening on TCP port " + port + "...")
 	// Custom server
@@ -50,7 +50,7 @@ func main() {
 		WriteTimeout: time.Second * 15,
 		ReadTimeout:  time.Second * 15,
 		IdleTimeout:  time.Second * 60,
-		Handler:      r, //Passing gorilla mux instance
+		Handler:      router, //Passing gorilla mux instance
 	}
 
 	go func() {
